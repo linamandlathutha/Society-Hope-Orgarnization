@@ -180,9 +180,9 @@ namespace SocietyHopeOrg.Controllers
             // Email configuration from appsettings.json
             var smtpServer = "smtp.gmail.com";
             var smtpPort = 587;
-            var smtpUsername = "societyhopeorganization@gmail.com";
-            var smtpPassword = "nqhxmkypgetnbksf";
-            var fromAddress = "societyhopeorganization@gmail.com";
+            var smtpUsername = "youremail@gmail.com";
+            var smtpPassword = "emailpassword";
+            var fromAddress = "youremail@gmail.com";
             var toAddress = donation.Email;
 
             var subject = "Donation Confirmation";
@@ -283,9 +283,9 @@ namespace SocietyHopeOrg.Controllers
             // Email configuration
             var smtpServer = "smtp.gmail.com";
             var smtpPort = 587;
-            var smtpUsername = "societyhopeorganization@gmail.com";
-            var smtpPassword = "nqhxmkypgetnbksf"; // Secure your password
-            var fromAddress = "societyhopeorganization@gmail.com";
+            var smtpUsername = "youremail@gmail.com";
+            var smtpPassword = "youremailpassword"; // Secure your password
+            var fromAddress = "youremail@gmail.com";
             var toAddress = donation.Email; // Assuming the donation has an Email property
 
             var subject = "Your Tracking Code Update";
