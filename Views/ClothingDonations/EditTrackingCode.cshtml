@@ -1,0 +1,28 @@
+﻿@model SocietyHopeOrg.Models.UpdateTrackViewModel
+
+@{
+    ViewData["Title"] = "Edit Tracking Code";
+}
+
+<h2>Edit Tracking Code</h2>
+
+<form asp-action="EditTrackingCode" method="post">
+    <div class="form-group">
+        <label asp-for="Tracking" class="control-label"></label>
+        <input asp-for="Tracking" class="form-control" />
+        <span asp-validation-for="Tracking" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="DonationId" />
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

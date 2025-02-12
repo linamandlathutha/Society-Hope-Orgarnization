@@ -1,0 +1,41 @@
+﻿@model IEnumerable<FoodUsageTransaction>
+
+<h2>Food Usage Transaction History</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Usage Date</th>
+            <th>Meal Time</th>
+            <th>Canned Foods Used</th>
+            <th>Beans Used</th>
+            <th>Pasta/Rice Used</th>
+            <th>Sugar/Flour/Salt Used</th>
+            <th>Baby Products Used</th>
+            <th>Available Canned Foods</th>
+            <th>Available Beans</th>
+            <th>Available Pasta/Rice</th>
+            <th>Available Sugar/Flour/Salt</th>
+            <th>Available Baby Products</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.UsageDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@transaction.MealTime</td>
+                <td>@transaction.CannedFoodQuantityUsed</td>
+                <td>@transaction.BeansQuantityUsed</td>
+                <td>@transaction.PastaOrRiceQuantityUsed</td>
+                <td>@transaction.SugarFlourSaltCondimentsQuantityUsed</td>
+                <td>@transaction.BabyProductsQuantityUsed</td>
+                <td>@transaction.AvailableCannedFoodQuantity</td>
+                <td>@transaction.AvailableBeansQuantity</td>
+                <td>@transaction.AvailablePastaOrRiceQuantity</td>
+                <td>@transaction.AvailableSugarFlourSaltCondimentsQuantity</td>
+                <td>@transaction.AvailableBabyProductsQuantity</td>
+            </tr>
+        }
+    </tbody>
+</table>

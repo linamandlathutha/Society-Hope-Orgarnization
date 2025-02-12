@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-SocietyHopeOrg-75d70761-feaa-4736-9c53-0dddd97a94c9</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\about.jpg" />
+    <None Include="wwwroot\images\banner1.jpg" />
+    <None Include="wwwroot\images\banner2.jpg" />
+    <None Include="wwwroot\images\banner3.jpg" />
+    <None Include="wwwroot\images\banner4.jpg" />
+    <None Include="wwwroot\images\barcode.png" />
+    <None Include="wwwroot\images\blog1.jpg" />
+    <None Include="wwwroot\images\blog2.jpg" />
+    <None Include="wwwroot\images\blog3.jpg" />
+    <None Include="wwwroot\images\blog4.jpg" />
+    <None Include="wwwroot\images\blog5.jpg" />
+    <None Include="wwwroot\images\blog6.jpg" />
+    <None Include="wwwroot\images\brand1.png" />
+    <None Include="wwwroot\images\brand2.png" />
+    <None Include="wwwroot\images\brand3.png" />
+    <None Include="wwwroot\images\brand4.png" />
+    <None Include="wwwroot\images\brand5.png" />
+    <None Include="wwwroot\images\brand6.png" />
+    <None Include="wwwroot\images\child.png" />
+    <None Include="wwwroot\images\donate.png" />
+    <None Include="wwwroot\images\eco.png" />
+    <None Include="wwwroot\images\education.png" />
+    <None Include="wwwroot\images\food.png" />
+    <None Include="wwwroot\images\health.png" />
+    <None Include="wwwroot\images\home.png" />
+    <None Include="wwwroot\images\icon1.png" />
+    <None Include="wwwroot\images\innerbanner.jpg" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\images\subscribe.png" />
+    <None Include="wwwroot\images\team1.jpg" />
+    <None Include="wwwroot\images\team2.jpg" />
+    <None Include="wwwroot\images\team3.jpg" />
+    <None Include="wwwroot\images\team4.jpg" />
+    <None Include="wwwroot\images\team5.jpg" />
+    <None Include="wwwroot\images\team6.jpg" />
+    <None Include="wwwroot\images\team7.jpg" />
+    <None Include="wwwroot\images\team8.jpg" />
+    <None Include="wwwroot\images\team9.jpg" />
+    <None Include="wwwroot\images\volunteer.png" />
+    <None Include="wwwroot\images\world-map.png" />
+    <None Include="wwwroot\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\counter.js" />
+    <None Include="wwwroot\js\jquery-3.3.1.min.js" />
+    <None Include="wwwroot\js\owl.carousel.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\theme-change.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="itext" Version="8.0.5" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.3.2" />
+    <PackageReference Include="Select.Pdf" Version="24.1.0" />
+    <PackageReference Include="Stripe.net" Version="46.2.1" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Rotativa.AspNetCore" Version="1.3.2" />
+	</ItemGroup>
+
+
+
+
+	<ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+</Project>

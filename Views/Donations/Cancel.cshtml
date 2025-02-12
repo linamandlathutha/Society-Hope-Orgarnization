@@ -1,0 +1,5 @@
+﻿@model SocietyHopeOrg.Models.Donation
+
+<h2>Donation Canceled</h2>
+<p>Your donation of @Model.Amount.ToString("C") was canceled. You can try again or contact us if you need assistance.</p>
+<a asp-action="Create" asp-controller="Donation" class="btn btn-primary">Make Another Donation</a>

@@ -1,0 +1,399 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>SHO</title>
+
+    <link href="//fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="~/css/Style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <style>
+        .fa-heart {
+    color: red; /* Change to your preferred color */
+    margin-right: 5px; /* Adjust the spacing as needed */
+}
+
+.mr {
+    margin-right: 0.25rem;
+}
+
+        /* Show main dropdown on hover */
+        .nav-item.dropdown:hover > .dropdown-menu {
+            display: block; /* Show the main dropdown */
+        }
+
+        /* Basic styling for dropdown menus */
+        .dropdown-menu {
+            display: none; /* Hide dropdown menus by default */
+            position: absolute;
+            top: 100%; /* Position below the main item */
+            left: 0;
+            z-index: 1000;
+            float: left;
+            min-width: 10rem;
+            padding: 0.5rem 0;
+            margin: 0;
+            font-size: 1rem;
+            color: #212529;
+            text-align: left;
+            list-style: none;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 0.25rem;
+        }
+
+        /* Nested submenu styling */
+        .dropdown-submenu {
+            position: relative; /* Required for positioning the nested menu */
+        }
+
+            /* Hide nested dropdown by default */
+            .dropdown-submenu .dropdown-menu {
+                top: 0;
+                left: 100%; /* Align the submenu to the right */
+                margin-top: -1px; /* Aligns the submenu with the parent item */
+                display: none; /* Hide submenu initially */
+            }
+
+            /* Show nested dropdown on hover of the parent */
+            .dropdown-submenu:hover > .dropdown-menu {
+                display: block; /* Show the submenu on hover */
+            }
+
+
+
+    </style>
+    <!--header-->
+    <header id="site-header" class="fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg stroke">
+                <h1>
+                    <a class="navbar-brand mr-lg-5" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/logo.png" alt="Your logo" title="Your logo" />SHO
+                    </a>
+                </h1>
+                <!-- if logo is image enable this
+                <a class="navbar-brand" href="#index.html">
+                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+                </a> -->
+                <button class="navbar-toggler  collapsed bg-gradient" type="button" data-toggle="collapse"
+                        data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                    <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+                    </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav w-100">
+
+                        @if (User.Identity.IsAuthenticated && !(User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Profile Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                                    <a class="dropdown-item" asp-controller="Profile" asp-action="Create">Create Profile</a>
+                                   
+                                    <a class="dropdown-item" asp-controller="Profile" asp-action="Index">View Profile</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Services
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+
+                                    <div class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">Donate Items</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-controller="GroceryDonation" asp-action="Create">Food Donations</a>
+                                            <a class="dropdown-item" asp-controller="ClothingDonations" asp-action="Create">Donate Clothes</a>
+                                            <a class="dropdown-item" asp-controller="ToysDonation" asp-action="Create">Donate Toys</a>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">List Donated Items</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-controller="GroceryDonation" asp-action="Index">Food Donations</a>
+                                            <a class="dropdown-item" asp-controller="ClothingDonations" asp-action="Index">Donated Clothes</a>
+                                            <a class="dropdown-item" asp-controller="ToysDonation" asp-action="Index">Donated Toys</a>
+                                            <a class="dropdown-item" asp-controller="Donations" asp-action="Index"> Money Donations</a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </li>
+
+
+                        }
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+                        {
+
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Services
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+
+                                    <div class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">Donate Items</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-controller="GroceryDonation" asp-action="CreateAdmin">Food Donations</a>
+                                            <a class="dropdown-item" asp-controller="ClothingDonations" asp-action="CreateAdmin">Donate Clothes</a>
+                                            <a class="dropdown-item" asp-controller="ToysDonation" asp-action="CreateAdmin">Donate Toys</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">Beneficiaries</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-controller="Beneficiaries" asp-action="Create">Add Beneficiary</a>
+                                            <a class="dropdown-item" asp-controller="Beneficiaries" asp-action="Index">List Beneficiaries</a>
+                                            <a class="dropdown-item" asp-controller="User" asp-action="Index">List Users</a>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">List Donated Items</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-controller="GroceryDonation" asp-action="Index">Food Donations</a>
+                                            <a class="dropdown-item" asp-controller="ClothingDonations" asp-action="Index">Donate Clothes</a>
+                                            <a class="dropdown-item" asp-controller="ToysDonation" asp-action="Index">Donate Toys</a>
+                                            <a class="dropdown-item" asp-controller="Donations" asp-action="Index"> Money Donations</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+
+                        }
+                      
+                      
+                        @if (User.Identity.IsAuthenticated && !(User.IsInRole("Admin")))
+                        {
+                            <li class="align-self">
+                                <a asp-action="CreateSession" asp-controller="Donations" class="btn btn-style btn-primary ml-lg-3 mr-lg-2"><span class="fa fa-heart mr-1"></span> Donate</a>
+                            </li>
+                        }
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+                <!-- toggle switch for light and dark theme -->
+                <div class="mobile-position">
+                    <nav class="navigation">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox">
+                                <input type="checkbox" id="checkbox">
+                                <div class="mode-container">
+                                    <i class="gg-sun"></i>
+                                    <i class="gg-moon"></i>
+                                </div>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+                <!-- //toggle switch for light and dark theme -->
+
+            </nav>
+        </div>
+    </header>
+    <!-- //header -->
+       
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+
+
+
+
+
+
+
+
+
+
+                 
+          
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - SocietyHopeOrg - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+    <!-- move top -->
+    <button onclick="topFunction()" id="movetop" title="Go to top">
+        &uarr;
+    </button>
+    <script>
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("movetop").style.display = "block";
+            } else {
+                document.getElementById("movetop").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+    <!-- /move top -->
+    </footer>
+    <!-- Footers-14 -->
+    </div>
+    </div>
+    <!-- //footer 14 -->
+
+    <script src="~/js/jquery-3.3.1.min.js"></script> <!-- Common jquery plugin -->
+
+    <script src="~/js/theme-change.js"></script><!-- theme switch js (light and dark)-->
+    <script src="~/js/owl.carousel.js"></script>
+
+    <!-- script for banner slider-->
+    <script>
+        $(document).ready(function () {
+            $('.owl-one').owlCarousel({
+                loop: true,
+                dots: false,
+                margin: 0,
+                nav: true,
+                responsiveClass: true,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplaySpeed: 1000,
+                autoplayHoverPause: false,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    480: {
+                        items: 1
+                    },
+                    667: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 1
+                    }
+                }
+            })
+        })
+    </script>
+    <!-- //script -->
+    <!-- script for tesimonials carousel slider -->
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo1").owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: false,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    736: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 2,
+                        loop: false
+                    }
+                }
+            })
+        })
+    </script>
+    <!-- //script for tesimonials carousel slider -->
+
+    <script src="~/js/counter.js"></script>
+
+    <!--/MENU-JS-->
+    <script>
+        $(window).on("scroll", function () {
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 80) {
+                $("#site-header").addClass("nav-fixed");
+            } else {
+                $("#site-header").removeClass("nav-fixed");
+            }
+        });
+
+        //Main navigation Active Class Add Remove
+        $(".navbar-toggler").on("click", function () {
+            $("header").toggleClass("active");
+        });
+        $(document).on("ready", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+            $(window).on("resize", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+            });
+        });
+    </script>
+    <!--//MENU-JS-->
+    <!-- disable body scroll which navbar is in active -->
+    <script>
+        $(function () {
+            $('.navbar-toggler').click(function () {
+                $('body').toggleClass('noscroll');
+            })
+        });
+    </script>
+    <!-- //disable body scroll which navbar is in active -->
+    <!--bootstrap-->
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- //bootstrap-->
+</body>
+</html>
+<style></style>

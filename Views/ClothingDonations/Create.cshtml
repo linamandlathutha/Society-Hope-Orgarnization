@@ -1,0 +1,56 @@
+﻿@model SocietyHopeOrg.Models.ClothingDonation
+
+@{
+    ViewData["Title"] = "Create Clothing Donation";
+}
+
+<h1>Create Clothing Donation</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" readonly />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" readonly />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" readonly />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" readonly />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClothType"></label>
+        <select asp-for="ClothType" class="form-control" asp-items="Html.GetEnumSelectList<SocietyHopeOrg.Models.ClothsTypes>()">
+            <option value="">-- Select Clothing Type --</option>
+        </select>
+        <span asp-validation-for="ClothType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Size"></label>
+        <select asp-for="Size" class="form-control" asp-items="Html.GetEnumSelectList<SocietyHopeOrg.Models.Sizes>()"></select>
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

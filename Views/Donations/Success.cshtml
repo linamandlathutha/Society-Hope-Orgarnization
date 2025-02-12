@@ -1,0 +1,24 @@
+﻿@model SocietyHopeOrg.Models.Donation
+
+<h2>Thank You!</h2>
+<p>Thank you for your generous donation. Your transaction was successful.</p>
+<p>Your transaction ID: <span id="transactionId"></span></p>
+<p>Thank you for your donation! You will be redirected to the homepage shortly.</p>
+<script>
+    // Generate a 10-digit temporary code
+    function generateTransactionId() {
+        let transactionId = '';
+        for (let i = 0; i < 10; i++) {
+            transactionId += Math.floor(Math.random() * 10);
+        }
+        return transactionId;
+    }
+
+    // Display the generated transaction ID
+    document.getElementById('transactionId').textContent = generateTransactionId();
+
+    // Redirect to Home/Index after 3 seconds
+    setTimeout(function () {
+        window.location.href = '@Url.Action("Index", "Home")';
+    }, 3000); // 3000 milliseconds = 3 seconds
+</script>

@@ -1,0 +1,32 @@
+﻿@model SocietyHopeOrg.Models.Profile
+
+<h2>Profiles</h2>
+
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <a>
+                    <img src="~/images/@Model.ProfilePicture"
+                         class="rounded-circle"
+                         height="100" width="100"
+                         asp-append-version="true" />
+                </a>
+
+                <h5 class="card-title">@Model.FirstName @Model.Surname</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.Email</h6>
+                <br />
+
+                <p class="card-text">
+                    <strong>Address:</strong>  <a href="https://www.google.com/maps/search/?api=1&query=@Uri.EscapeDataString(Model.Address)" target="_blank">
+                        @Model.Address
+                    </a> <br />
+                    <strong>Gender:</strong> @Model.Gender <br />
+                    <strong>Phone Number:</strong> @Model.PhoneNumber <br /> <br />
+                </p>
+
+               
+            </div>
+        </div>
+    </div>

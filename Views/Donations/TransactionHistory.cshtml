@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WithdrawalTransaction>
+
+<h2>Transaction History</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Amount Withdrawn</th>
+            <th>Available Balance After</th>
+            <th>Date of Withdrawal</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.TransactionId</td>
+                <td>@transaction.WithdrawnAmount.ToString("C")</td>
+                <td>@transaction.AvailableBalanceAfter.ToString("C")</td>
+                <td>@transaction.WithdrawalDate.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@transaction.Notes</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-primary">Back to Donations</a>

@@ -1,0 +1,14 @@
+﻿@model SocietyHopeOrg.Models.Donation
+
+<h2>Donation Details</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Donation Details</h5>
+        <p class="card-text"><strong>Donor Email:</strong> @Model.DonorEmail</p>
+        <p class="card-text"><strong>Amount:</strong> @Model.Amount</p>
+        <p class="card-text"><strong>Date of Donation:</strong> @Model.DonationDate.ToString("yyyy-MM-dd")</p>
+        <p class="card-text"><strong>Status:</strong> @Model.Status</p>
+        <p class="card-text"><strong>Message from Donor:</strong> @Model.DonorMessage</p>
+    </div>
+</div>

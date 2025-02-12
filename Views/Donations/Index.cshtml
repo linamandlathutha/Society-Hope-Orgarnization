@@ -1,0 +1,190 @@
+﻿@model IEnumerable<SocietyHopeOrg.Models.Donation>
+
+<h2>Donations List</h2>
+<!-- Search Form -->
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="searchString">Search by Donor Email:</label>
+        <input type="text" name="searchString" class="form-control" placeholder="Enter email to search" value="@ViewData["CurrentFilter"]" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (User.Identity.IsAuthenticated && !(User.IsInRole("Admin")))
+{
+    <div class="container">
+        <h4>Total Donation Amount: R<span id="totalAmount">0</span> </h4>
+    </div>
+}
+
+
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+{
+<div class="row mb-4">  
+
+    @{
+        // Get the latest donation record for the summary display
+        var latestDonation = Model.OrderByDescending(d => d.DonationDate).FirstOrDefault();
+    }
+
+    @if (latestDonation != null)
+    {
+
+        <div class="col-12">
+            <div class="card shadow-sm p-4">
+                <h2>Donation Summary</h2>
+                <p><strong>Total Donations:</strong> R<span>@latestDonation.TotalDonations</span></p>
+                <p><strong>Available Amount:</strong> R<span id="available-amount">@latestDonation.AvailableAmount</span></p>
+
+                <button class="btn btn-primary mt-3" onclick="showWithdrawModal()">Withdraw</button> <br />
+                    <a asp-action="AllTransactions" asp-route-donationId="@latestDonation.DonationId" class="btn btn-info">View Transaction History</a>
+
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Withdraw Modal -->
+<div id="withdrawModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+    <div style="background-color:white; padding:20px; margin:10% auto; width:300px; text-align:center;">
+        <h4>Withdraw Amount</h4>
+        <form id="withdrawForm" method="post" action="/Donations/WithdrawAmount">
+            <input type="hidden" name="DonationId" value="@latestDonation.DonationId" />
+            <div class="form-group">
+                <label for="withdrawalAmount">Amount to Withdraw:</label>
+                <input type="number" name="WithdrawalAmount" id="withdrawalAmount" class="form-control" required />
+            </div>
+                <div class="form-group">
+                    <label>Reason for Withdrawal:</label>
+                    <input type="text" id="reasonForWithdrawal" name="Notes" class="form-control" required />
+                </div>
+
+            <button type="submit" class="btn btn-success mt-3">Confirm</button>
+            <button type="button" class="btn btn-secondary mt-3" onclick="hideWithdrawModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+}
+
+
+
+<div class="row">
+    @foreach (var donation in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@donation.DonorEmail</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@donation.DonationDate.ToString("yyyy-MM-dd")</h6>
+                    <p class="card-text">
+                        <strong>Amount:</strong> R<span class="donation-amount">@donation.Amount</span><br />
+                        <strong>Message:</strong> @donation.DonorMessage
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+<div class="row">
+    @if (TempData["WithdrawalError"] != null)
+    {
+        <div id="errorPopup" style="position:fixed; top:20%; left:50%; transform:translate(-50%, -50%); padding:20px; background-color:#f8d7da; border:1px solid #f5c6cb; border-radius:8px; text-align:center; width:250px;">
+            <div style="font-size:1.5em; color:#dc3545;">
+                &#9888; <!-- Warning icon -->
+            </div>
+            <p style="margin:10px 0; color:#721c24; font-weight:bold;">@TempData["WithdrawalError"]</p>
+            <button class="btn btn-secondary mt-3" onclick="hideErrorPopup()">Close</button>
+        </div>
+    }
+</div>
+
+
+<!-- Success Popup -->
+<div id="successPopup" style="display:none; position:fixed; top:20%; left:50%; transform:translate(-50%, -50%); padding:20px; background-color:#d4edda; border:1px solid #c3e6cb; border-radius:8px; text-align:center; width:250px;">
+    <div style="font-size:2em; color:#28a745;">
+        &#10003; <!-- Checkmark icon -->
+    </div>
+    <p style="margin:10px 0; color:#155724; font-weight:bold;">Withdrawal Successful!</p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let total = 0;
+
+        // Calculate the total donation amount
+        document.querySelectorAll(".donation-amount").forEach(function (element) {
+            total += parseFloat(element.textContent) || 0;
+        });
+
+        // Display the total amount with two decimal places
+        document.getElementById("totalAmount").textContent = total.toFixed(2);
+    });
+</script>
+
+<script>
+    function showWithdrawModal() {
+        document.getElementById('withdrawModal').style.display = 'block';
+    }
+
+    function hideWithdrawModal() {
+        document.getElementById('withdrawModal').style.display = 'none';
+    }
+</script>
+
+<script>
+    function showWithdrawModal() {
+        document.getElementById('withdrawModal').style.display = 'block';
+    }
+
+    function hideWithdrawModal() {
+        document.getElementById('withdrawModal').style.display = 'none';
+    }
+
+    function showSuccessPopup() {
+        var successPopup = document.getElementById('successPopup');
+        successPopup.style.display = 'block';
+
+        // Hide the popup after 3 seconds
+        setTimeout(function () {
+            successPopup.style.display = 'none';
+        }, 3000);
+    }
+
+    function hideErrorPopup() {
+        document.getElementById('errorPopup').style.display = 'none';
+    }
+
+    // Show success popup if withdrawal was successful
+    @if (TempData["WithdrawalSuccess"] != null && (bool)TempData["WithdrawalSuccess"])
+    {
+        <text>showSuccessPopup(); </text>
+    }
+</script>
+}
+
+
+<script>
+    function redirectToWithdrawalHistory() {
+        window.location.href = '@Url.Action("TransactionHistory", "Donations")'; 
+    }
+</script>
+<script>
+    function captureWithdrawalReason() {
+        // Get the value from the reason for withdrawal input field
+        var reason = document.getElementById("reasonForWithdrawal").value;
+
+        // Optional: Display an alert if needed
+        alert("Withdrawal Reason set to: " + reason);
+
+        // Set the hidden Notes field or add it as part of your data submission
+        document.getElementById("notesField").value = reason;
+    }
+
+    // Attach the function to form submission if needed
+    document.getElementById("withdrawalForm").onsubmit = captureWithdrawalReason;
+</script>

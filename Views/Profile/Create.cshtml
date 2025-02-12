@@ -1,0 +1,87 @@
+﻿@model SocietyHopeOrg.Models.ProfileViewModel
+
+<h2>Create Profile</h2>
+
+<form asp-action="Create" enctype="multipart/form-data" method="post">
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" id="Address" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="ProfileImage" class="control-label"></label>
+            <div class="custom-file">
+                <input asp-for="ProfileImage" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Gender"></label>
+        <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<Profile.GenderType>()"></select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Profile</button>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.GoogleApiKey&libraries=places"></script>
+
+
+    <script>
+
+        // Initialize Google Places Autocomplete for address input
+        function initialize() {
+            var input = document.getElementById('Address');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.setFields(['address_components', 'formatted_address']);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+        // Function to generate a random case number
+        function generateRandomCode(length) {
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var code = '';
+            for (var i = 0; i < length; i++) {
+                var randomIndex = Math.floor(Math.random() * characters.length);
+                code += characters.charAt(randomIndex);
+            }
+            return code;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var caseNumber = generateRandomCode(13); // Adjust the length as needed
+            document.getElementById('caseNumberField').value = caseNumber;
+        });
+    </script>
+}

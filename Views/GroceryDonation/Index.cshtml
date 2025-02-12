@@ -1,0 +1,153 @@
+﻿@model IEnumerable<SocietyHopeOrg.Models.GroceryDonation> 
+
+@{
+    ViewData["Title"] = "Grocery Donations";
+}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+{
+<h1>Grocery Donations</h1>
+<form asp-action="Index" method="get" class="form-inline mb-3">
+    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search by Email" />
+    <button type="submit" class="btn btn-primary ml-2">Search</button>
+</form>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Donation</a>
+</p>
+
+
+
+
+
+
+<div class="container">
+    <h3>Total Quantities</h3>
+
+        @{
+            // Calculate total quantities
+            var totalCannedFoods = Model.Sum(d => d.CannedFoodQuantity);
+            var totalBeans = Model.Sum(d => d.BeansQuantity);
+            var totalPastaOrRice = Model.Sum(d => d.PastaOrRiceQuantity);
+            var totalSugarFlourSaltCondiments = Model.Sum(d => d.SugarFlourSaltCondimentsQuantity);
+            var totalBabyProducts = Model.Sum(d => d.BabyProductsQuantity);
+        }
+    <ul>
+        <li><strong>Canned Foods:</strong> @totalCannedFoods</li>
+        <li><strong>Beans:</strong> @totalBeans</li>
+        <li><strong>Pasta or Rice:</strong> @totalPastaOrRice</li>
+        <li><strong>Sugar, Flour, Salt, Condiments:</strong> @totalSugarFlourSaltCondiments</li>
+        <li><strong>Baby Products:</strong> @totalBabyProducts</li>
+    </ul>
+</div>
+
+
+    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#useItemsModal">
+    Use Items
+</button>
+
+
+    <button type="button" class="btn btn-primary mt-3" onclick="location.href='@Url.Action("History", "GroceryDonation")'">View History</button>
+
+<br />
+<br />
+<!-- Modal -->
+<div class="modal fade" id="useItemsModal" tabindex="-1" aria-labelledby="useItemsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="useItemsModalLabel">Use Food Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/GroceryDonation/UseFoodItems">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label>Canned Foods Quantity to Use:</label>
+                        <input type="number" name="CannedFoodQuantity" min="0" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Beans Quantity to Use:</label>
+                        <input type="number" name="BeansQuantity" min="0" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Pasta or Rice Quantity to Use:</label>
+                        <input type="number" name="PastaOrRiceQuantity" min="0" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Sugar, Flour, Salt, Condiments Quantity to Use:</label>
+                        <input type="number" name="SugarFlourSaltCondimentsQuantity" min="0" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Baby Products Quantity to Use:</label>
+                        <input type="number" name="BabyProductsQuantity" min="0" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Eating Time:</label>
+                        <select name="MealTime" class="form-control" required>
+                            <option value="">Select Time</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Use Items</button>
+                </form>
+            </div>
+           
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">@item.FirstName @item.Surname</h5>
+                    <p class="card-text"><strong>Email:</strong> @item.Email</p>
+                    <p class="card-text"><strong>Phone Number:</strong> @item.PhoneNumber</p>
+                    <p class="card-text"><strong>Tracking Code:</strong> @item.TrackingCode</p>
+                    <p class="card-text">
+                        <strong>Quantities Donated:</strong><br />
+                        - Canned Foods: @item.CannedFoodQuantity <br />
+                        - Beans: @item.BeansQuantity <br />
+                        - Pasta or Rice: @item.PastaOrRiceQuantity <br />
+                        - Sugar, Flour, Salt, Condiments: @item.SugarFlourSaltCondimentsQuantity <br />
+                        - Baby Products: @item.BabyProductsQuantity
+                    </p>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
+                    {
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <a asp-action="EditTrackingCode" asp-route-id="@item.DonationId" class="btn btn-primary btn-sm">Update Tracking Code</a>
+                          
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
